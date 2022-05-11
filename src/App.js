@@ -1,32 +1,29 @@
-import axios from 'axios'
 import React, { useEffect } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Login from './components/Login'
 import Verify from './components/Verify'
+import Companies from './pages/Companies'
+import Products from './pages/Products'
 
 const App = () => {
   const navigate = useNavigate()
 
-  const handleApi = async () => {
-    axios.get('https://api.uracashback.uz/companies', {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('User Token')}`
-      }
-    })
-    .then((response) => {
-      console.log(response.data.items);
-    })
-    .catch(err => console.log(err))
-  }
+  // useEffect(() => {
+  //   if(localStorage.getItem('User Token')) {
+  //     navigate('/')
+  //   } else {
+  //     navigate('/login')
+  //   }
+  // }, [])
 
   return (
     <>
       <Routes>
-        <Route exact path='/' element={<h1>Home</h1>} />
+        <Route exact path='/' element={<Companies />} />
+        <Route path='companies/:id/products' element={<Products />} />
         <Route path='/login' element={<Login />} />
         <Route path='/verify' element={<Verify />} />
       </Routes>
-      <button onClick={handleApi}>test api</button>
     </>
   )
 }

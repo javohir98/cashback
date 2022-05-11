@@ -3,6 +3,7 @@ import OTPInput, { ResendOTP } from "otp-input-react";
 import styled from 'styled-components'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     width: 100%;
@@ -120,6 +121,7 @@ const Image = styled.img`
 const Verify = () => {
   const [OTP, setOTP] = useState("");
   const target_number = useSelector(state => state.user.target_number)
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -134,6 +136,7 @@ const Verify = () => {
     .then((response) => {
       console.log(response);
       localStorage.setItem('User Token', response.data.token)
+      navigate('/')
     })
     .catch(err => {
       console.log(err);
