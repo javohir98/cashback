@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate  } from "react-router-dom";
 import styled from "styled-components";
+import { add_target_number } from '../redux/actions/UserActions'
 
 
 const Container = styled.div`
@@ -93,6 +95,7 @@ const Login = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [error, setError] = useState('')
     let navigate = useNavigate();
+    const dispatch = useDispatch()
 
 
     const handleSubmit = (e) => {
@@ -104,10 +107,11 @@ const Login = () => {
             alert('The phone number must be at least 12 digits');
         } else {
           axios.post('https://api.uracashback.uz/security/send-verification', {
-              phoneNumber: `+${phoneNumber}`
+              phoneNumber: `${phoneNumber}`
           })
             .then((response) => {
                 console.log(response);
+                dispatch(add_target_number(phoneNumber))
                 navigate('/verify')
                 
             })
@@ -116,9 +120,6 @@ const Login = () => {
                 alert('error occures')
             })
         }
-
-                
-
     }
 
     return (

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import OTPInput, { ResendOTP } from "otp-input-react";
 import styled from 'styled-components'
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const Container = styled.div`
     width: 100%;
@@ -117,10 +119,29 @@ const Image = styled.img`
 
 const Verify = () => {
   const [OTP, setOTP] = useState("");
+  const target_number = useSelector(state => state.user.target_number)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+
+    await axios.post('https://api.uracashback.uz/security/verify-login', {
+      phoneNumber: target_number,
+      code: OTP
+    }, 
+    {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    })
+    .then((response) => {
+      console.log(response);
+      localStorage.setItem('User Token', response.data.token)
+    })
+    .catch(err => {
+      console.log(err);
+    })
   }
+
+  
+
   return (
     <Container>
       
@@ -129,7 +150,7 @@ const Verify = () => {
       <VerifyBox>
         <Form onSubmit={handleSubmit}>
           <Title>SMS kodini kiriting</Title>
-          <SubTitle>Raqamga yuborildi +998 (90) 877-66-12</SubTitle>
+          <SubTitle>Raqamga yuborildi +{target_number}</SubTitle>
           <OTPInput
             value={OTP}
             onChange={setOTP}

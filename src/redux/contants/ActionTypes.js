@@ -1,5 +1,5 @@
 const ActionTypes = {
-    INIT: 'INIT'
+    ADD_TARGET_NUMBER: 'ADD_TARGET_NUMBER'
 }
 
 export default ActionTypes
