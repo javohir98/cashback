@@ -1,30 +1,23 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes, useNavigate } from 'react-router-dom'
 import Login from './components/Login'
 import Verify from './components/Verify'
 import Companies from './pages/Companies'
 import Products from './pages/Products'
+import { privateRoutes, publicRoutes } from './routes/route'
 
 const App = () => {
-  const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   if(localStorage.getItem('User Token')) {
-  //     navigate('/')
-  //   } else {
-  //     navigate('/login')
-  //   }
-  // }, [])
+  const [isAuth, setIsAuth] = useState(false);
 
   return (
-    <>
-      <Routes>
-        <Route exact path='/' element={<Companies />} />
-        <Route path='companies/:id/products' element={<Products />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/verify' element={<Verify />} />
+    localStorage.getItem('User Token')
+      ? <Routes>{privateRoutes.map(route => (
+          <Route path={route.path} element={route.element} exact={route.exact} key={route.path} />
+        ))}
       </Routes>
-    </>
+      : <Routes>{publicRoutes.map(route => (
+          <Route path={route.path} element={route.element} exact={route.exact} key={route.path} />
+        ))}</Routes>
   )
 }
 

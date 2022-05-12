@@ -7,13 +7,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { add_companies } from '../redux/actions/UserActions'
 
-import { TableWrapper } from './companiesStyle';
+import { TableWrapper, Container, Wrapper } from './companiesStyle';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 const Companies = () => {
     const [companies, setCompanies] = useState([])
     const [filter, setFilter] = useState({page: 1, limit: 10, sort: ''})
+    const dispatch = useDispatch()
 
     useEffect(() => {
         axios.get(`https://api.uracashback.uz/companies?page=${filter.page}`, {
@@ -23,13 +26,15 @@ const Companies = () => {
         })
         .then((response) => {
             setCompanies(response.data.items)
+            dispatch(add_companies(response.data.items))
             console.log(response.data);
         })
         .catch(err => console.log(err))
     }, [])
 
   return (
-    <div>
+    <Container>
+        <Wrapper />
         <TableWrapper>
             <TableContainer component={Paper} style={{boxShadow: 'none'}}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -38,6 +43,7 @@ const Companies = () => {
                         <TableCell>id</TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell>Short description</TableCell>
+                        <TableCell>Locations</TableCell>
                     </TableRow>
                     </TableHead>
                     <TableBody>
@@ -51,13 +57,16 @@ const Companies = () => {
                                 </TableCell>
                                 <TableCell className='table_item'><Link to={`companies/${item.id}/products`}>{item.name}</Link></TableCell>
                                 <TableCell className='table_item'>{item.short_description}</TableCell>
+                                <TableCell className='table_item'>
+                                    {item.locations.slice(0,1).map((it, index) => <p key={index}>{it.name}</p>)}
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
         </TableWrapper>
-    </div>
+    </Container>
   )
 }
 
