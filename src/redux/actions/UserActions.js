@@ -20,3 +20,10 @@ export const select_company_products = (event) => {
         payload: event
     }
 }
+
+export const set_auth = (event) => {
+    return {
+        type: ActionTypes.SET_AUTH,
+        payload: event
+    }
+}

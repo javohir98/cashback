@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import OTPInput, { ResendOTP } from "otp-input-react";
 import styled from 'styled-components'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { set_auth } from '../redux/actions/UserActions';
 
 const Container = styled.div`
     width: 100%;
@@ -122,6 +123,7 @@ const Verify = () => {
   const [OTP, setOTP] = useState("");
   const target_number = useSelector(state => state.user.target_number)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -136,6 +138,7 @@ const Verify = () => {
     .then((response) => {
       console.log(response);
       localStorage.setItem('User Token', response.data.token)
+      dispatch(set_auth(true))
       navigate('/')
     })
     .catch(err => {

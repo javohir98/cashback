@@ -3,7 +3,8 @@ import ActionTypes from '../contants/ActionTypes'
 const initialState = {
     target_number: '',
     companies: [],
-    select_company_products: []
+    select_company_products: [],
+    isAuth: false
 }
 
 export const getUserData = (state=initialState, {type, payload}) => {
@@ -25,6 +26,12 @@ export const getUserData = (state=initialState, {type, payload}) => {
                 ...state,
                 companies: payload
             }   
+
+        case ActionTypes.SET_AUTH:
+            return {
+                ...state,
+                isAuth: payload
+            }
 
         default:
             return state

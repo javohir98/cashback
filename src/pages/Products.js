@@ -28,16 +28,6 @@ const Products = () => {
     const [page, setPage] = useState(1)
     const [totalPage, setTotalPage] = useState(0)
 
-    // useEffect(() => {
-    //   axios.get(`https://api.uracashback.uz/companies/${id}/products`)
-    //       .then((response) => {
-    //           setProducts(response.data.items);
-    //           dispatch(select_company_products(response.data.items))
-    //           console.log(response.data.items);
-    //       })
-    //       .catch(err => console.log(err))
-    // }, [])
-
     const [fetchPosts, isLoading, postError ] = useFetching(async (limit, page, id) => {
       const response = await ProductServiceApi.getAllProducts(limit, page, id)
       setProducts(response.data.items)
@@ -65,24 +55,30 @@ const Products = () => {
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortedAndSearchProducts.map((item, index) => (
-                            <TableRow
-                                key={item.id}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            >
-                                <TableCell component="th" scope="row" className='table_item'>
-                                {index + 1}
-                                </TableCell>
-                                <TableCell className='table_item'>{item.name}</TableCell>
-                                <TableCell className='table_item'>{item.description}</TableCell>
-                                <TableCell className='table_item'>
-                                    {item.variations.slice(0,1).map((it, index) => <p key={index}>{it.name}</p>)}
-                                </TableCell>
-                                <TableCell className='table_item'>
-                                    {item.variations.slice(0,1).map((it, index) => <p key={index}>{it.price}</p>)}
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {isLoading 
+                            ?
+                            <h1>Loading...</h1>
+                            :
+                            sortedAndSearchProducts.map((item, index) => (
+                                <TableRow
+                                    key={item.id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell component="th" scope="row" className='table_item'>
+                                    {index + 1}
+                                    </TableCell>
+                                    <TableCell className='table_item'>{item.name}</TableCell>
+                                    <TableCell className='table_item'>{item.description}</TableCell>
+                                    <TableCell className='table_item'>
+                                        {item.variations.slice(0,1).map((it, index) => <p key={index}>{it.name}</p>)}
+                                    </TableCell>
+                                    <TableCell className='table_item'>
+                                        {item.variations.slice(0,1).map((it, index) => <p key={index}>{it.price}</p>)}
+                                    </TableCell>
+                                </TableRow>
+                            ))
+                        
+                    }
                     </TableBody>
                 </Table>
             </TableContainer>

@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
-import Login from './components/Login'
-import Verify from './components/Verify'
-import Companies from './pages/Companies'
-import Products from './pages/Products'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Route, Routes } from 'react-router-dom'
+import { set_auth } from './redux/actions/UserActions'
 import { privateRoutes, publicRoutes } from './routes/route'
 
 const App = () => {
-  const [isAuth, setIsAuth] = useState(false);
+  const isLogin = useSelector(state => state.user.isAuth)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(localStorage.getItem('User Token')) {
+      dispatch(set_auth(true))
+    }
+  }, [])
 
   return (
-    localStorage.getItem('User Token')
+    isLogin
       ? <Routes>{privateRoutes.map(route => (
           <Route path={route.path} element={route.element} exact={route.exact} key={route.path} />
         ))}

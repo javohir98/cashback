@@ -6,7 +6,8 @@ import NotFound from '../components/NotFound'
 
 export const privateRoutes = [
     {path: '/', element: <Companies />, exact: true},
-    {path: '/companies/:id/products', element: <Products />, exact: true}
+    {path: '/companies/:id/products', element: <Products />, exact: true},
+    {path: '*', element: <NotFound to='/' />, exact: true},
 ]
 
 export const publicRoutes = [
