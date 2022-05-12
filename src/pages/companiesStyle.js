@@ -33,7 +33,6 @@ export const TableWrapper = styled.div`
     padding: 5px 0 5px 13px;
 
     a {
-      /* text-decoration: none; */
       color: #141272;
 
       &:hover {
@@ -42,4 +41,13 @@ export const TableWrapper = styled.div`
       }
     }
   }
+`;
+
+export const LoaderBox = styled.div`
+  border: 1px solid red;
+  width: calc(800px - 36px);
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

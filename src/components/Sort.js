@@ -1,9 +1,11 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
+import { set_auth } from '../redux/actions/UserActions';
 
 const Container = styled.div`
-    max-width: 1200px;
+    max-width: ${props => props.type === 'companies' ? '800px' : '1200px'};
     padding: 18px;
     background-color: #fff;
     border-radius: 10px;
@@ -31,7 +33,10 @@ const Input = styled.input`
 `;
 
 const Logo = styled.div`
-
+    a {
+        color: #159671;
+        text-decoration: none;
+    }
 `;
 
 const LogOut = styled.button`
@@ -45,23 +50,30 @@ const LogOut = styled.button`
     cursor: pointer;
 `;
 
-const Sort = ({inputValue, inputChange}) => {
+const Sort = ({inputValue, inputChange, type}) => {
+    const dispatch = useDispatch()
 
     const logOut = () => {
-        console.log('log out');
+        localStorage.removeItem('User Token')
+        dispatch(set_auth(false))
     }
 
   return (
-    <Container>
+    <Container type={type}>
         <Logo>
-            <Link to='/'>Home</Link>
+            <Link to='/'>HOME</Link>
         </Logo>
-        <Input
-            placeholder='Search' 
-            type='search'
-            value={inputValue}
-            onChange={inputChange}
-        />
+        {type 
+        ? ''
+        :
+        (
+            <Input
+                placeholder='Search' 
+                type='search'
+                value={inputValue}
+                onChange={inputChange}
+            />
+        )}
         <LogOut onClick={logOut}>LogOut</LogOut>
     </Container>
   )

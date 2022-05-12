@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,7 +9,6 @@ import Paper from '@mui/material/Paper';
 import { select_company_products } from '../redux/actions/UserActions'
 
 import { TableWrapper, Container, Wrapper } from './companiesStyle';
-import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom'
 import Sort from '../components/Sort';
@@ -57,7 +55,7 @@ const Products = () => {
                     <TableBody>
                         {isLoading 
                             ?
-                            <h1>Loading...</h1>
+                            <h3>Laoding...</h3>
                             :
                             sortedAndSearchProducts.map((item, index) => (
                                 <TableRow
